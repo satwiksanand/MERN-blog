@@ -2,12 +2,20 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../redux/user/userSlice";
 
 function SignIn() {
   const [data, setData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { error: errorMessage, isLoading } = useSelector((state) => state.user);
 
   function handleChange(e) {
     setData({ ...data, [e.target.id]: e.target.value.trim() });
@@ -16,19 +24,18 @@ function SignIn() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!data.userEmail || !data.password) {
-      return setErrorMessage("All fields are required!");
+      return dispatch(signInFailure("All fields are required!"));
     }
 
-    setErrorMessage(null);
-    setIsLoading(true);
+    dispatch(signInStart());
     try {
       const res = await axios.post("/api/auth/signin", data);
       console.log(res.data);
+      dispatch(signInSuccess(res.data));
       navigate("/");
     } catch (err) {
-      setErrorMessage("Email or user-name already in use!");
+      return dispatch(signInFailure("Wrong credentials!"));
     }
-    setIsLoading(false);
   }
 
   return (
