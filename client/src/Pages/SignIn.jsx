@@ -8,6 +8,7 @@ import {
   signInStart,
   signInSuccess,
 } from "../redux/user/userSlice";
+import Oauth from "../component/Oauth";
 
 function SignIn() {
   const [data, setData] = useState({});
@@ -84,6 +85,7 @@ function SignIn() {
               Sign Up
             </Link>
           </div>
+          <Oauth />
           {errorMessage && (
             <Alert color={"failure"} className="font-bold">
               {errorMessage}

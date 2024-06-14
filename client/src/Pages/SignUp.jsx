@@ -2,6 +2,7 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Oauth from "../component/Oauth";
 
 function SignUp() {
   const [data, setData] = useState({});
@@ -86,6 +87,7 @@ function SignUp() {
               Sign In
             </Link>
           </div>
+          <Oauth />
           {errorMessage && (
             <Alert color={"failure"} className="font-bold">
               {errorMessage}
