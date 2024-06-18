@@ -11,12 +11,16 @@ import {
 import { Link, useLocation } from "react-router-dom";
 
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { toggleThemeMode } from "../redux/theme/themeSlice.js";
 
 function Header() {
   const path = useLocation().pathname;
-  const { user, error } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
+  const currTheme = useSelector((state) => state.theme.currTheme);
+  const dispatch = useDispatch();
 
   return (
     <Navbar className="border-b-2" color={"gray"}>
@@ -41,14 +45,15 @@ function Header() {
       </Button>
 
       <div className="flex justify-center items-center gap-2 md:order-2">
-        <Button color={"gray"} pill>
-          <FaMoon />
+        <Button color={"gray"} pill onClick={() => dispatch(toggleThemeMode())}>
+          {currTheme === "light" ? <FaMoon /> : <FaSun />}
         </Button>
         {user ? (
           <Dropdown
             arrowIcon={false}
             inline
             label={<Avatar alt="user" img={user.userPhotoUrl} />}
+            rounded
           >
             <DropdownHeader className="flex flex-col justify-center items-center text-lg">
               <span className="underline">User Information</span>{" "}
