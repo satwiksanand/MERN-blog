@@ -7,6 +7,7 @@ import About from "./Pages/About.jsx";
 import Projects from "./Pages/Projects.jsx";
 import Dashboard from "./Pages/Dashboard.jsx";
 import AppLayout from "./Pages/AppLayout.jsx";
+import PrivateRoute from "./component/PrivateRoute.jsx";
 
 const root = createBrowserRouter([
   {
@@ -17,8 +18,13 @@ const root = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "dashboard",
-        element: <Dashboard />,
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: "dashboard/:tab",
+            element: <Dashboard />,
+          },
+        ],
       },
       {
         path: "about",
