@@ -6,7 +6,7 @@ function Dashboard() {
   const { tab } = useParams();
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row px-0 m-0">
+    <div className="min-h-screen flex flex-col md:flex-row p-0 m-0">
       <div className="">
         {/* sidebar over here */}
         <DashSidebar />

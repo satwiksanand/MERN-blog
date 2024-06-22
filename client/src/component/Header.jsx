@@ -60,7 +60,7 @@ function Header() {
               <span>@{user.userName}</span>
               <span>{user.userEmail}</span>
             </DropdownHeader>
-            <Link to={"/dashboard?tab=profile"}>
+            <Link to={"/dashboard/profile"}>
               <DropdownItem>Profile</DropdownItem>
             </Link>
             <DropdownDivider />
