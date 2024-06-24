@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 
 const PORT = 3000;
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 dotenv.config();
 
 // const pass = "#King#";
