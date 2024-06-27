@@ -9,7 +9,6 @@ export const test = (req, res) => {
 export const updateUser = async (req, res, next) => {
   const userToken = req.user.userId;
   const token = req.params.userId;
-  console.log(token, userToken);
   if (userToken !== token) {
     return next(
       errorHandler(401, "You are not allowed to update the user credentials!")
