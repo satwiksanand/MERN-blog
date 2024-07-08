@@ -1,9 +1,34 @@
 import { Sidebar } from "flowbite-react";
 import { FaUserAlt, FaSignOutAlt } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import {
+  signOutStart,
+  signOutSuccess,
+  signOutFailure,
+} from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 function DashSidebar() {
   const { tab } = useParams();
+  const dispatch = useDispatch();
+
+  async function handleSignOut() {
+    try {
+      dispatch(signOutStart());
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = res.json();
+      if (!res.ok) {
+        dispatch(signOutFailure(data.message));
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (err) {
+      dispatch(signOutFailure(err));
+    }
+  }
+
   return (
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
@@ -19,7 +44,11 @@ function DashSidebar() {
           >
             Profile
           </Sidebar.Item>
-          <Sidebar.Item icon={FaSignOutAlt} className="cursor-pointer">
+          <Sidebar.Item
+            icon={FaSignOutAlt}
+            className="cursor-pointer"
+            onClick={handleSignOut}
+          >
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>

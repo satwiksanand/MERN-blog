@@ -11,6 +11,9 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signOutStart,
+  signOutSuccess,
+  signOutFailure,
 } from "../redux/user/userSlice.js";
 
 function DashProfile() {
@@ -77,6 +80,24 @@ function DashProfile() {
       }
     } catch (error) {
       dispatch(deleteUserFailure(error));
+    }
+  }
+
+  async function handleSignOut(e) {
+    e.preventDefault();
+    try {
+      dispatch(signOutStart());
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = res.json();
+      if (!res.ok) {
+        dispatch(signOutFailure(data.message));
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (err) {
+      dispatch(signOutFailure(err));
     }
   }
 
@@ -151,7 +172,12 @@ function DashProfile() {
         >
           <FaTrash className="mr-2 h-5 w-5" /> Delete Account
         </Button>
-        <Button className="flex-1" gradientDuoTone={"greenToBlue"} outline>
+        <Button
+          className="flex-1"
+          gradientDuoTone={"greenToBlue"}
+          outline
+          onClick={handleSignOut}
+        >
           <FaSignOutAlt className="mr-2 h-5 w-5" /> Sign Out
         </Button>
       </div>

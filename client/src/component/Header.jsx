@@ -15,12 +15,34 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { toggleThemeMode } from "../redux/theme/themeSlice.js";
+import {
+  signOutStart,
+  signOutSuccess,
+  signOutFailure,
+} from "../redux/user/userSlice.js";
 
 function Header() {
   const path = useLocation().pathname;
   const { user } = useSelector((state) => state.user);
   const currTheme = useSelector((state) => state.theme.currTheme);
   const dispatch = useDispatch();
+
+  async function handleSignOut() {
+    try {
+      dispatch(signOutStart());
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = res.json();
+      if (!res.ok) {
+        dispatch(signOutFailure(data.message));
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (err) {
+      dispatch(signOutFailure(err));
+    }
+  }
 
   return (
     <Navbar className="border-b-2" color={"gray"}>
@@ -65,7 +87,7 @@ function Header() {
             </Link>
             <DropdownDivider />
             <Link>
-              <DropdownItem>Sign Out</DropdownItem>
+              <DropdownItem onClick={handleSignOut}>Sign Out</DropdownItem>
             </Link>
           </Dropdown>
         ) : (
