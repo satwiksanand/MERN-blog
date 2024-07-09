@@ -15,9 +15,10 @@ import {
   signOutSuccess,
   signOutFailure,
 } from "../redux/user/userSlice.js";
+import { Link } from "react-router-dom";
 
 function DashProfile() {
-  const { user, error } = useSelector((state) => state.user);
+  const { user, error, isLoading } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
@@ -161,9 +162,20 @@ function DashProfile() {
           />
         )}
       </div>
-      <Button className="w-full font-semibold text-xl" onClick={handleSubmit}>
+      <Button
+        className="w-full font-semibold text-xl"
+        onClick={handleSubmit}
+        disabled={isLoading}
+      >
         Update Password
       </Button>
+      {user.isAdmin && (
+        <Link to={"/create-post"} className="w-full">
+          <Button className="w-full" gradientDuoTone={"greenToBlue"}>
+            Create a Post
+          </Button>
+        </Link>
+      )}
       <div className="w-full flex justify-evenly items-center gap-2">
         <Button
           className="flex-1"
