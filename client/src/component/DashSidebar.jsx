@@ -6,10 +6,11 @@ import {
   signOutSuccess,
   signOutFailure,
 } from "../redux/user/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function DashSidebar() {
   const { tab } = useParams();
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   async function handleSignOut() {
@@ -37,7 +38,7 @@ function DashSidebar() {
             as={Link}
             to={"/dashboard/profile"}
             icon={FaUserAlt}
-            label={"user"}
+            label={user.isAdmin ? "Admin" : "User"}
             labelColor={"dark"}
             className="cursor-pointer"
             active={tab === "profile"}
