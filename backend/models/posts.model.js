@@ -2,7 +2,12 @@ const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
   //well idiot change the schema if needed, add more complexities.
-  image: {
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  bannerImage: {
     type: String,
     default:
       "https://tse2.mm.bing.net/th/id/OIP.qB_8LAwkSXRR_57c-5r-WAHaCX?rs=1&pid=ImgDetMain",
@@ -19,7 +24,7 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   publicationDate: {
-    type: Date,
+    type: String,
     default: new Date().toDateString().split(" ").slice(1).join("-"),
   },
   category: {
