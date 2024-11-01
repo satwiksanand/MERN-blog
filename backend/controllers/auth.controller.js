@@ -26,13 +26,12 @@ const signup = async (req, res, next) => {
       throw customError(411, "Invalid Details!");
     }
     const hashedPassword = bcryptjs.hashSync(details.password, 10);
-    const newUser = new user({
-      useremail: details.useremail,
-      username: details.username,
-      password: hashedPassword,
-    });
-
-    await newUser.save();
+    const existingUser = await user.findOne({ useremail: details.useremail });
+    if (existingUser) {
+      throw customError(413, "Email already in use!");
+    }
+    details.password = hashedPassword;
+    await user.create(details);
     res.json({
       message: "user added successfully!",
     });
@@ -63,7 +62,12 @@ const signin = async (req, res, next) => {
       throw customError(411, "Wrong Password!");
     }
     const token = jwt.sign(
-      { useremail: existingUser.useremail, username: existingUser.username },
+      {
+        useremail: existingUser.useremail,
+        username: existingUser.username,
+        isAdmin: existingUser.isAdmin,
+        id: existingUser._id,
+      },
       secretKey
     );
     const { password: pass, ...rest } = existingUser._doc;
