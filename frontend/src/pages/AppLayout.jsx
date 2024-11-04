@@ -1,11 +1,15 @@
 import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import About from "../components/About";
 
 const AppLayout = () => {
   return (
-    <div className="font-bold">
-      this is the app lay out component the pages are supposed to render in this
-      componet
-      <Outlet />
+    <div className="flex flex-col min-h-screen font-bold">
+      <Navbar />
+      <div className="flex-grow">
+        <Outlet />
+      </div>
+      <About />
     </div>
   );
 };

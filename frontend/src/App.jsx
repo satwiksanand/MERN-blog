@@ -1,10 +1,16 @@
 //we will think about state management later.
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import AppLayout from "./pages/AppLayout";
 import Home from "./pages/Home";
+import News from "./pages/News";
+import Blogs from "./pages/Blogs";
+import Create from "./pages/Create";
+import Contact from "./pages/Contact";
+
 import PrivateRoute from "./components/PrivateRoute";
 
 const router = createBrowserRouter([
@@ -18,6 +24,22 @@ const router = createBrowserRouter([
           {
             path: "/",
             element: <Home />,
+          },
+          {
+            path: "/news",
+            element: <News />,
+          },
+          {
+            path: "/blogs",
+            element: <Blogs />,
+          },
+          {
+            path: "/create",
+            element: <Create />,
+          },
+          {
+            path: "/contact",
+            element: <Contact />,
           },
         ],
       },
