@@ -4,9 +4,9 @@ import User from "./User";
 
 function Navbar() {
   return (
-    <nav className="flex gap-1 justify-around p-3 bg-[#333333]">
+    <nav className="flex justify-around gap-1 bg-[#333333] p-3">
       <Logo />
-      <div className="flex gap-3 justify-center items-center">
+      <div className="flex items-center justify-center gap-3">
         <NavLinks label="Home" path="/" />
         <NavLinks label="News" path="/news" />
         <NavLinks label="Blogs" path="/blogs" />

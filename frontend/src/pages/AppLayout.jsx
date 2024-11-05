@@ -4,9 +4,10 @@ import About from "../components/About";
 
 const AppLayout = () => {
   return (
-    <div className="flex flex-col min-h-screen font-bold">
+    <div className="flex min-h-screen flex-col font-bold">
       <Navbar />
-      <div className="flex-grow">
+      <hr />
+      <div className="min-h-screen flex-grow content-center justify-items-center bg-[#333]">
         <Outlet />
       </div>
       <About />
