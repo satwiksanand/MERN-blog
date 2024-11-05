@@ -6,9 +6,9 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const rootRouter = require("./routes/index");
 const PORT = 3000;
-app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/v1", rootRouter);
 
