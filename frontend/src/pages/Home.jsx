@@ -5,9 +5,11 @@ import { RiBubbleChartFill } from "react-icons/ri";
 import { TbBubbleFilled } from "react-icons/tb";
 import { PiDiamondsFourThin } from "react-icons/pi";
 import { FaBoxOpen } from "react-icons/fa";
+import { IoNavigateSharp } from "react-icons/io5";
 import BottomCards from "../components/Home_Components/BottomCards";
 import SectionTitle from "../components/Home_Components/SectionTitle";
 import FeatureContent from "../components/Home_Components/FeatureContent";
+import BlogExample from "../components/Home_Components/BlogExample";
 
 const bottomCards = [
   {
@@ -70,6 +72,57 @@ const featureCardDetails2 = [
   },
 ];
 
+const blogExamples = [
+  {
+    user: {
+      image: "https://randomuser.me/api/portraits/men/44.jpg",
+      name: "Nathan Elliott",
+      field: "Quantum Computing",
+    },
+    blogData: {
+      date: "11/24/2027",
+      title: "The Quantum leap in Computing",
+      intro:
+        "Explore the revolution in quantum computing, its applications, and its potential impact on various industries.",
+      likes: 24,
+      comments: 50,
+      shares: 23,
+    },
+  },
+  {
+    user: {
+      image: "https://randomuser.me/api/portraits/men/26.jpg",
+      name: "Melvin Rogers",
+      field: "AI Ethics",
+    },
+    blogData: {
+      date: "4/1/2088",
+      title: "The Ethical Dilemmas of Al",
+      intro:
+        "A deep dive into ethical challenges posed by Al, including bias, privacy, and transparency.",
+      likes: 24,
+      comments: 50,
+      shares: 23,
+    },
+  },
+  {
+    user: {
+      image: "https://randomuser.me/api/portraits/men/52.jpg",
+      name: "Joseph Roberson",
+      field: "Space Exploration",
+    },
+    blogData: {
+      date: "1/17/2087",
+      title: "The Mars Colonization Challenge",
+      intro:
+        "Exploring the technical and logistical challenges of human colonization on Mars.",
+      likes: 24,
+      comments: 50,
+      shares: 23,
+    },
+  },
+];
+
 const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center bg-[#141414]">
@@ -113,6 +166,17 @@ const Home = () => {
           logo={<FaBoxOpen size={32} fill="yellow" />}
           cardDetails={featureCardDetails2}
         />
+      </div>
+      <div id="Blogs" className="flex min-w-full flex-col">
+        <SectionTitle
+          intro={"A Knowledge Treasure Trove"}
+          title={"Explore FutureTech's In-Depth Blog Posts"}
+          logo={<IoNavigateSharp fill="yellow" size={32} />}
+          buttonText="View AI Blogs"
+        />
+        {blogExamples.map((blog, ind) => {
+          return <BlogExample blogExample={blog} key={ind} />;
+        })}
       </div>
     </div>
   );
