@@ -72,8 +72,12 @@ const signin = async (req, res, next) => {
     );
     const { password: pass, ...rest } = existingUser._doc;
     res
+      .status(200)
       .cookie("access_token", token, {
         httpOnly: true,
+        expires: new Date(Date.now() + 25892000000),
+        secure: true,
+        sameSite: "None",
       })
       .json(rest);
   } catch (err) {

@@ -1,6 +1,12 @@
 const { user } = require("../db/index");
 const customError = require("../utils/customError");
 const bcryptjs = require("bcryptjs");
+
+const test = (req, res, next) => {
+  res.json({
+    message: "verification was successfull!",
+  });
+};
 const getUserById = async (req, res, next) => {
   //the functionality to look for a certain user should only be allowed for the admin.
   const userId = req.params.userId;
@@ -114,4 +120,5 @@ module.exports = {
   signout,
   updateUser,
   deleteUser,
+  test,
 };

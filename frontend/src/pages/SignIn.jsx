@@ -25,8 +25,10 @@ export default function SignIn() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        credentials: "include",
       });
       const finalResponse = await response.json();
+      console.log(finalResponse);
       if (response.ok) {
         dispatch(signInSuccess(finalResponse));
         toast.success("login successfull");
