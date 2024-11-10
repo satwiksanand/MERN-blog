@@ -7,7 +7,7 @@ const AppLayout = () => {
     <div className="flex min-h-screen flex-col font-bold">
       <Navbar />
       <hr />
-      <div className="box-border min-h-screen flex-grow content-center justify-items-center bg-[#333] p-6 text-white">
+      <div className="m-0 box-border min-h-screen bg-[#333] p-0 text-white">
         <Outlet />
       </div>
       <About />

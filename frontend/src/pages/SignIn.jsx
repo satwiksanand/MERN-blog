@@ -10,12 +10,14 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { signInFailure, signInStart, signInSuccess } from "../slice/userSlice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const { register, handleSubmit, setValue } = useForm();
 
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     //submit the form data and redirect to the login page if successfull!
@@ -32,6 +34,7 @@ export default function SignIn() {
       if (response.ok) {
         dispatch(signInSuccess(finalResponse));
         toast.success("login successfull");
+        navigate("/");
       } else {
         dispatch(
           signInFailure(

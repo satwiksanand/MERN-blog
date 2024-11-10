@@ -24,7 +24,7 @@ function RightIntro() {
       <div className="flex">
         <Link
           to={"/resources"}
-          className="flex items-center justify-center gap-2 rounded-xl border-[1px] border-gray-400 p-2"
+          className="flex items-center justify-center gap-2 rounded-xl border-[1px] border-gray-400 p-2 text-[#7e7e81]"
         >
           Explore Resources <FaLocationArrow fill="yellow" />
         </Link>

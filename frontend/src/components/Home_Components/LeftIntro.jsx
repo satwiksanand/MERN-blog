@@ -22,7 +22,7 @@ function LeftIntro() {
         <p className="text-lg font-bold capitalize text-[#7e7e81]">
           Your Journey to tomorrow begins here!
         </p>
-        <p className="text-4xl font-semibold text-white">
+        <p className="mb-12 text-4xl font-thin text-white">
           Explore the frontiers of Artificial Intelligence
         </p>
         <p className="mb-12 text-[#7e7e81]">
