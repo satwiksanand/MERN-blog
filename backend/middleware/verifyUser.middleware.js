@@ -3,7 +3,6 @@ const customError = require("../utils/customError");
 
 const verifyUser = (req, res, next) => {
   const token = req.cookies.access_token;
-  console.log(token);
   try {
     if (!token) {
       throw customError(411, "Invalid Token!");

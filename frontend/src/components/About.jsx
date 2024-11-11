@@ -55,8 +55,8 @@ const aboutInfo = [
 
 function About() {
   return (
-    <div className="px-12 bg-[#1a1a1a] pt-6">
-      <div className="flex justify-between mb-6">
+    <div className="bg-[#1a1a1a] px-12 pt-6">
+      <div className="mb-6 grid grid-cols-2 gap-2 md:flex md:justify-between">
         {aboutInfo.map((info, ind) => {
           return (
             <AboutColumn
