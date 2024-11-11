@@ -47,6 +47,10 @@ const postSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  shares: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = postSchema;
