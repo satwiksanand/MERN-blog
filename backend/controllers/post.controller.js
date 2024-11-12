@@ -81,9 +81,23 @@ const deletePost = async (req, res, next) => {
   }
 };
 
+const getPostByCategory = async (req, res, next) => {
+  const category = req.params.category;
+  const limit = req.params.limit;
+  try {
+    const result = await post
+      .find({ category: category })
+      .limit(Number.parseInt(limit));
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createPost,
   updatePost,
   deletePost,
   getPostById,
+  getPostByCategory,
 };
