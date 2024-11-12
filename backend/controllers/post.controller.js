@@ -86,7 +86,7 @@ const getPostByCategory = async (req, res, next) => {
   const limit = req.params.limit;
   try {
     const result = await post
-      .find({ category: category })
+      .find(category !== "All" ? { category: category } : {})
       .limit(Number.parseInt(limit));
     res.json(result);
   } catch (err) {

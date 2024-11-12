@@ -22,9 +22,29 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    getPostStart: (state) => {
+      state.loading = true;
+      state.error = null;
+      state.post = null;
+    },
+    getPostSuccess: (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.post = action.payload;
+    },
+    getPostFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
 export default postSlice.reducer;
-export const { createPostFail, createPostStart, createPostSuccess } =
-  postSlice.actions;
+export const {
+  createPostFail,
+  createPostStart,
+  createPostSuccess,
+  getPostFailure,
+  getPostStart,
+  getPostSuccess,
+} = postSlice.actions;
