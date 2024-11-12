@@ -1,8 +1,59 @@
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  createPostFail,
+  createPostStart,
+  createPostSuccess,
+} from "../slice/postSlice";
+
 function Create() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const dispatch = useDispatch();
+
+  async function onSubmit(data) {
+    dispatch(createPostStart());
+    try {
+      const res = await fetch("http://localhost:3000/api/v1/posts/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        credentials: "include",
+      });
+      const finalData = await res.json();
+      if (res.ok) {
+        toast.success("Blog created successfully");
+        dispatch(createPostSuccess());
+      } else {
+        toast.error(
+          finalData.message ||
+            "something wrong with the server try again later!",
+        );
+        dispatch(
+          createPostFail(
+            finalData.message ||
+              "something wrong with the server try again later!",
+          ),
+        );
+      }
+    } catch (err) {
+      toast.error(err.message || "Error while creating Blog!");
+      dispatch(createPostFail(err.message || "Erro while creating blog!"));
+    }
+  }
+
   return (
     <div className="flex items-center justify-center gap-3 p-12">
-      <form className="grid flex-grow grid-cols-1 gap-2 rounded-lg border-[1px] p-8 outline-gray-500/50 sm:max-w-[70%] sm:grid-cols-3">
-        <div className="col-span-2 flex flex-col justify-evenly gap-3 p-4 sm:col-start-1">
+      <form
+        className="grid flex-grow grid-cols-1 gap-2 rounded-lg border-[1px] p-8 outline-gray-500/50 md:max-w-[90%] md:grid-cols-3"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="col-span-2 flex flex-col justify-evenly gap-3 p-4 md:col-start-1">
           <div className="flex flex-col">
             <label htmlFor="title" className="text-lg font-semibold">
               Title
@@ -12,17 +63,24 @@ function Create() {
               placeholder="What's your blog called?"
               id="title"
               className="rounded-lg bg-[#757575] p-2 font-thin placeholder:font-thin placeholder:text-white focus:outline-none"
+              {...register("title", { required: "Title is required" })}
             />
+            {errors.title && (
+              <p className="font-semibold text-red-600">
+                <span className="font-bold">Oops</span> Title is required
+              </p>
+            )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="intro" className="text-lg font-semibold">
-              Intro
+            <label htmlFor="introduction" className="text-lg font-semibold">
+              introduction
             </label>
             <input
               type="text"
               placeholder="highlights of your blog!"
-              id="intro"
+              id="introduction"
               className="rounded-lg bg-[#757575] p-2 font-thin placeholder:font-thin placeholder:text-white focus:outline-none"
+              {...register("introduction")}
             />
           </div>
           <div className="flex flex-col">
@@ -35,7 +93,13 @@ function Create() {
               placeholder="contents of your blog"
               className="rounded-lg bg-[#757575] p-2 font-thin placeholder:font-thin placeholder:text-white focus:outline-none"
               rows={8}
+              {...register("content", { required: "Content cannot be empty!" })}
             ></textarea>
+            {errors.content && (
+              <p className="font-semibold text-red-600">
+                <span className="font-bold">Oops</span> Content cannot be empty!
+              </p>
+            )}
           </div>
           <div className="flex items-center gap-6 p-2">
             <label htmlFor="readingTime" className="text-lg font-semibold">
@@ -45,6 +109,7 @@ function Create() {
               name="readingTime"
               id="readingTime"
               className="rounded-lg bg-[#757575]"
+              {...register("readingTime")}
             >
               <option value="5min+">5 minutes</option>
               <option value="10min+">10 minutes</option>
@@ -52,19 +117,21 @@ function Create() {
               <option value="30min+">30 minutes</option>
             </select>
           </div>
-          <div className="flex items-center gap-6 p-2">
-            <label htmlFor="publicationDate" className="text-lg font-semibold">
-              Publish Date
+          <div className="flex w-full flex-col gap-6 p-2">
+            <label htmlFor="bannerImage" className="text-lg font-semibold">
+              Banner Image
             </label>
             <input
-              type="date"
-              name="publicationDate"
-              id="publicationDate"
-              className="rounded-lg bg-[#757575]"
+              type="text"
+              name="bannerImage"
+              id="bannerImage"
+              className="w-full rounded-lg bg-[#757575]"
+              {...register("bannerImage")}
+              placeholder="Leave empty for default image"
             />
           </div>
         </div>
-        <div className="flex flex-col gap-3 p-4 sm:col-start-3">
+        <div className="flex flex-col gap-3 p-4 md:col-start-3">
           <div className="flex items-center gap-6 p-2">
             <label htmlFor="category" className="text-lg font-semibold">
               Category
@@ -73,6 +140,7 @@ function Create() {
               name="category"
               id="category"
               className="rounded-lg bg-[#757575]"
+              {...register("category")}
             >
               <option value="ReactJS">ReactJS</option>
               <option value="NodeJS">NodeJS</option>
@@ -80,8 +148,8 @@ function Create() {
               <option value="MERN">MERN</option>
             </select>
           </div>
-          <div>
-            <div className="max-w-sm rounded-lg border border-gray-200 bg-[#444] shadow dark:border-gray-700 dark:bg-gray-800">
+          <div className="hidden md:block">
+            <div className="max-w-md rounded-lg border border-gray-200 bg-[#444] shadow dark:border-gray-700 dark:bg-gray-800">
               <a href="#">
                 <img
                   className="rounded-t-lg"
@@ -101,7 +169,7 @@ function Create() {
                 </p>
                 <a
                   href="#"
-                  className="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-md inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Read more
                   <svg
@@ -124,7 +192,7 @@ function Create() {
             </div>
           </div>
         </div>
-        <button className="col-start-1 rounded-lg bg-[#7e7e91] p-3 text-white sm:col-span-3">
+        <button className="col-start-1 rounded-lg bg-[#7e7e91] p-3 text-white md:col-span-3">
           Submit
         </button>
       </form>
