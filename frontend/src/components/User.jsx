@@ -3,10 +3,15 @@ import { FaUser } from "react-icons/fa";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+
+User.propTypes = {
+  handleSignOut: PropTypes.func,
+};
 
 //render the user info dynamically here
 
-function User() {
+function User({ handleSignOut }) {
   const user = useSelector((state) => state.user.currentUser);
 
   return (
@@ -35,10 +40,18 @@ function User() {
           </Dropdown.Header>
         )}
         <Dropdown.Item icon={FaUser}>
-          {!user ? <Link to={"/signin"}>Sign In</Link> : "My Profile"}
+          {!user ? (
+            <Link to={"/signin"}>Sign In</Link>
+          ) : (
+            <Link to={"/profile"}>My Profile</Link>
+          )}
         </Dropdown.Item>
         <Dropdown.Divider className="font-bold text-black" />
-        {user && <Dropdown.Item icon={FaSignOutAlt}>Sign Out</Dropdown.Item>}
+        {user && (
+          <Dropdown.Item icon={FaSignOutAlt} onClick={handleSignOut}>
+            Sign Out
+          </Dropdown.Item>
+        )}
       </Dropdown>
     </div>
   );
