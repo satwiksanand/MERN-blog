@@ -39,13 +39,11 @@ function User({ handleSignOut }) {
             </span>
           </Dropdown.Header>
         )}
-        <Dropdown.Item icon={FaUser}>
-          {!user ? (
-            <Link to={"/signin"}>Sign In</Link>
-          ) : (
-            <Link to={"/profile"}>My Profile</Link>
-          )}
-        </Dropdown.Item>
+        <Link to={user ? "/profile" : "/signin"}>
+          <Dropdown.Item icon={FaUser}>
+            {user ? "My Profile" : "Sign In"}
+          </Dropdown.Item>
+        </Link>
         <Dropdown.Divider className="font-bold text-black" />
         {user && (
           <Dropdown.Item icon={FaSignOutAlt} onClick={handleSignOut}>
