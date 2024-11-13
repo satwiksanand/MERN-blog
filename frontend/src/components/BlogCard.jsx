@@ -6,6 +6,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { IoNavigate } from "react-icons/io5";
 import { FaShare } from "react-icons/fa6";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 BlogCard.propTypes = {
   blog: PropTypes.object,
@@ -14,7 +15,8 @@ BlogCard.propTypes = {
 
 export default function BlogCard({ blog, deletePost }) {
   const { isAdmin } = useSelector((state) => state.user.currentUser);
-  const { bannerImage, title, likes, shares } = blog;
+  const { bannerImage, title, likes, shares, _id } = blog;
+  const navigate = useNavigate();
 
   return (
     <Card className="flex flex-col gap-3 bg-[#1e1e1e] p-2 hover:scale-x-[1.02] hover:scale-y-[1.02] hover:cursor-pointer">
@@ -52,7 +54,12 @@ export default function BlogCard({ blog, deletePost }) {
             <FaShare /> <p>{shares}</p>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-2 rounded-2xl border-[1px] p-2 outline-gray-500/50">
+        <div
+          className="flex items-center justify-center gap-2 rounded-2xl border-[1px] p-2 outline-gray-500/50"
+          onClick={() => {
+            navigate(`/blogs/blog/${_id}`);
+          }}
+        >
           <p>Read More</p>
           <IoNavigate size={24} fill="yellow" />
         </div>

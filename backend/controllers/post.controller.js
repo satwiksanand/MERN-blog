@@ -1,6 +1,7 @@
 const zod = require("zod");
 const customError = require("../utils/customError");
 const { post } = require("../db/index");
+const mongoose = require("mongoose");
 
 const UriSchema = zod.string().url();
 
@@ -54,15 +55,13 @@ const updatePost = async (req, res, next) => {
 };
 
 const getPostById = async (req, res, next) => {
-  const postId = req.params.postId;
+  const postId = new mongoose.Types.ObjectId(req.params.postId);
   try {
     const result = await post.findById(postId);
     if (!result) {
       throw customError(413, `post by the id ${postId} does not exist!`);
     }
-    res.json({
-      data: result,
-    });
+    res.json(result);
   } catch (err) {
     next(err);
   }
