@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const postSlice = createSlice({
   name: "post",
   initialState: {
-    post: null,
+    post: [],
     loading: false,
     error: null,
   },
@@ -25,7 +25,7 @@ const postSlice = createSlice({
     getPostStart: (state) => {
       state.loading = true;
       state.error = null;
-      state.post = null;
+      state.post = [];
     },
     getPostSuccess: (state, action) => {
       state.loading = false;
@@ -35,6 +35,10 @@ const postSlice = createSlice({
     getPostFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    deletePostSuccess: (state, action) => {
+      state.post = state.post.filter((post) => post._id != action.payload);
+      state.error = null;
     },
   },
 });
@@ -47,4 +51,5 @@ export const {
   getPostFailure,
   getPostStart,
   getPostSuccess,
+  deletePostSuccess,
 } = postSlice.actions;

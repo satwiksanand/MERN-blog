@@ -72,7 +72,6 @@ const deletePost = async (req, res, next) => {
   const postId = req.params.postId;
   try {
     await post.findByIdAndDelete(postId);
-    console.log(result);
     res.json({
       message: "post deleted successfully",
     });

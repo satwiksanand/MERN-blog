@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Spinner } from "flowbite-react";
 import {
   createPostFail,
   createPostStart,
@@ -13,6 +14,7 @@ function Create() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { loading } = useSelector((state) => state.post);
 
   const dispatch = useDispatch();
 
@@ -193,7 +195,7 @@ function Create() {
           </div>
         </div>
         <button className="col-start-1 rounded-lg bg-[#7e7e91] p-3 text-white md:col-span-3">
-          Submit
+          {loading ? <Spinner /> : "Submit"}
         </button>
       </form>
     </div>
