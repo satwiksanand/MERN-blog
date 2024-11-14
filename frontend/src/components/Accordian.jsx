@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { IoMdAdd } from "react-icons/io";
 
 Accordion.propTypes = {
   items: PropTypes.array,
@@ -22,7 +21,10 @@ function Accordion({ items }) {
           onClick={() => handleToggle(index)}
         >
           <p className="flex cursor-pointer items-center justify-between text-lg font-semibold text-white">
-            {item.title} <IoMdAdd fill="yellow" size={24} />
+            {item.title}{" "}
+            <span className="text-2xl font-bold text-yellow-200">
+              {openIndex === index ? "-" : "+"}
+            </span>
           </p>
           {openIndex === index && (
             <div className="font-thin">{item.content}</div>
