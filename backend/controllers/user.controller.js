@@ -1,6 +1,9 @@
 const { user } = require("../db/index");
 const customError = require("../utils/customError");
 const bcryptjs = require("bcryptjs");
+const zod = require("zod");
+
+const isEmail = zod.string().email();
 
 const test = (req, res, next) => {
   res.json({
@@ -63,6 +66,17 @@ const updateUser = async (req, res, next) => {
         throw customError(413, "Password must be more than 8 characters!");
       }
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
+    } else {
+      const { password, ...rest } = req.body;
+      req.body = rest;
+    }
+    if (req.body.useremail) {
+      if (!isEmail.safeParse(req.body.useremail).success) {
+        throw customError(411, "Email is invalid!");
+      }
+    } else {
+      const { useremail, ...rest } = req.body;
+      req.body = rest;
     }
     if (req.body.username) {
       //find a user with the requested username
@@ -79,15 +93,14 @@ const updateUser = async (req, res, next) => {
       if (existingUser && existingUser._id != req.user.id) {
         throw customError(411, "Username already in use");
       }
+    } else {
+      const { username, ...rest } = req.body;
+      req.body = rest;
     }
     const updatedUser = await user.findByIdAndUpdate(
       req.user.id,
       {
-        $set: {
-          username: req.body.username,
-          password: req.body.password,
-          profilePicture: req.body.profilePicture,
-        },
+        $set: req.body,
       },
       { new: true }
     );
