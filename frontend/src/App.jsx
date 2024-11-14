@@ -16,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Profile";
 import BlogOpen from "./pages/BlogOpen";
+import BlogEdit from "./pages/BlogEdit";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
           {
             path: "/blogs/blog/:blogId",
             element: <BlogOpen />,
+          },
+          {
+            path: "/blogs/edit/:blogId",
+            element: <BlogEdit />,
           },
         ],
       },

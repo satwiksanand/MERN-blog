@@ -40,6 +40,18 @@ const postSlice = createSlice({
       state.post = state.post.filter((post) => post._id != action.payload);
       state.error = null;
     },
+    updatePostStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    updatePostSuccess: (state) => {
+      state.loading = false;
+      state.error = null;
+    },
+    updatePostFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -52,4 +64,7 @@ export const {
   getPostStart,
   getPostSuccess,
   deletePostSuccess,
+  updatePostFailure,
+  updatePostStart,
+  updatePostSuccess,
 } = postSlice.actions;

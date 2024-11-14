@@ -6,7 +6,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { IoNavigate } from "react-icons/io5";
 import { FaShare } from "react-icons/fa6";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 BlogCard.propTypes = {
   blog: PropTypes.object,
@@ -23,9 +23,11 @@ export default function BlogCard({ blog, deletePost }) {
       {isAdmin && (
         <div className="flex justify-end text-end">
           <Dropdown className="rounded-lg" inline label="">
-            <Dropdown.Item className="font-thin" icon={FaEdit}>
-              Update
-            </Dropdown.Item>
+            <Link to={`/blogs/edit/${_id}`}>
+              <Dropdown.Item className="font-thin" icon={FaEdit}>
+                Update
+              </Dropdown.Item>
+            </Link>
             <Dropdown.Item
               className="font-thin"
               icon={MdDelete}

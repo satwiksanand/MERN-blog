@@ -55,7 +55,7 @@ const updatePost = async (req, res, next) => {
 };
 
 const getPostById = async (req, res, next) => {
-  const postId = new mongoose.Types.ObjectId(req.params.postId);
+  const postId = req.params.postId;
   try {
     const result = await post.findById(postId);
     if (!result) {
