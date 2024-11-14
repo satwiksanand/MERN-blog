@@ -61,7 +61,12 @@ const getPostById = async (req, res, next) => {
     if (!result) {
       throw customError(413, `post by the id ${postId} does not exist!`);
     }
-    res.json(result);
+    const newResult = await post.findByIdAndUpdate(
+      postId,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+    res.json(newResult);
   } catch (err) {
     next(err);
   }
