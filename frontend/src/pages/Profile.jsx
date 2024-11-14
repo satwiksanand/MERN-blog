@@ -1,5 +1,215 @@
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { MdEditOff } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  updateFailure,
+  updateStart,
+  updateSuccess,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+} from "../slice/userSlice";
+
 function Profile() {
-  return <div>this is the profile page</div>;
+  const [editing, setEditing] = useState(false);
+  const { username, useremail, profilePicture, _id } = useSelector(
+    (state) => state.user.currentUser,
+  );
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
+
+  function toggleEditing() {
+    setEditing((editing) => !editing);
+  }
+
+  async function handleDelete() {
+    dispatch(deleteUserStart());
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/v1/user/delete/${_id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+      const finalData = await res.json();
+      if (res.ok) {
+        toast.success(finalData.message);
+        dispatch(deleteUserSuccess());
+      } else {
+        toast.error(finalData.message || "something wrong with the server");
+        dispatch(deleteUserFailure());
+      }
+    } catch (err) {
+      toast.error(err.message || "something wrong with the server!");
+      dispatch(deleteUserFailure());
+    }
+  }
+
+  async function handleEdit(data) {
+    dispatch(updateStart());
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/v1/user/update/${_id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+          credentials: "include",
+        },
+      );
+      const finalData = await res.json();
+      if (res.ok) {
+        toast.success("user updated!");
+        dispatch(updateSuccess(finalData));
+      } else {
+        toast.error(finalData.message || "something wrong with the server!");
+        dispatch(
+          updateFailure(finalData.message || "something wrong with the server"),
+        );
+      }
+    } catch (err) {
+      toast.error(err.message || "something wrong with the server!");
+      dispatch(
+        updateFailure(err.message || "something wrong with the server!"),
+      );
+    }
+  }
+
+  useEffect(() => {
+    setValue("username", username);
+    setValue("useremail", useremail);
+    setValue("profilePicture", profilePicture);
+  }, [setValue, username, useremail, profilePicture]);
+
+  return (
+    <div className="flex items-center justify-center p-12">
+      <form className="flex max-w-full flex-grow flex-col gap-4 rounded-xl border-[1px] p-6 outline-gray-500/50 sm:max-w-[80%] sm:p-8 md:max-w-[60%] md:p-10 lg:max-w-[45%] lg:p-12">
+        <div className="mt-2 flex flex-col items-center justify-center gap-2 text-xl font-semibold">
+          <span className="text-3xl font-bold">Profile</span>
+          Click the edit button to make changes
+        </div>
+        <div className="flex items-center justify-end gap-3 p-3 sm:gap-6">
+          {editing ? (
+            <MdEditOff
+              fill="blue"
+              size={32}
+              className="hover:cursor-pointer"
+              onClick={toggleEditing}
+            />
+          ) : (
+            <MdEdit
+              fill="blue"
+              size={32}
+              className="hover:cursor-pointer"
+              onClick={toggleEditing}
+            />
+          )}
+          <MdDelete
+            fill="red"
+            size={32}
+            className="hover:cursor-pointer"
+            onClick={handleSubmit(handleDelete)}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="username" className="text-lg font-semibold">
+            User Name
+          </label>
+          <input
+            type="text"
+            id="username"
+            disabled={!editing}
+            className="rounded-lg bg-[#262626] p-2 font-thin placeholder:font-thin placeholder:text-[#b3b3b3] focus:outline-none disabled:cursor-not-allowed"
+            {...register("username", { required: "username is required" })}
+          />
+          {errors.username && (
+            <p className="font-semibold text-red-600">
+              <span className="font-bold">Oops </span>
+              {errors.username.message}
+            </p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="useremail" className="text-lg font-semibold">
+            User Email
+          </label>
+          <input
+            type="email"
+            id="useremail"
+            disabled={!editing}
+            className="rounded-lg bg-[#262626] p-2 font-thin placeholder:font-thin placeholder:text-[#b3b3b3] focus:outline-none disabled:cursor-not-allowed"
+            {...register("useremail", { required: "useremail is required" })}
+          />
+          {errors.useremail && (
+            <p className="font-semibold text-red-600">
+              <span className="font-bold">Oops </span>
+              {errors.useremail.message}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="password" className="text-lg font-semibold">
+            Password
+          </label>
+          <input
+            type="text"
+            id="password"
+            placeholder="Enter a new password to update"
+            disabled={!editing}
+            className="rounded-lg bg-[#262626] p-2 font-thin placeholder:font-thin placeholder:text-[#b3b3b3] focus:outline-none disabled:cursor-not-allowed"
+            {...register("password")}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="profilePicture" className="text-lg font-semibold">
+            Profile picture
+          </label>
+          <input
+            type="text"
+            id="profilePicture"
+            placeholder="Enter a new url to edit"
+            disabled={!editing}
+            className="rounded-lg bg-[#262626] p-2 font-thin placeholder:font-thin placeholder:text-[#b3b3b3] focus:outline-none disabled:cursor-not-allowed"
+            {...register("profilePicture", {
+              required: "profile picture is required!",
+            })}
+          />
+          {errors.profilePicture && (
+            <p className="font-semibold text-red-600">
+              <span className="font-bold">Oops </span>
+              {errors.profilePicture.message}
+            </p>
+          )}
+        </div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <button
+            className="rounded-lg bg-[#1e5beb] p-3 text-[#3a3a3a]"
+            onClick={handleSubmit(handleEdit)}
+          >
+            Edit
+          </button>
+          <button
+            className="rounded-lg bg-[#f33939] p-3 text-[#3a3a3a]"
+            onClick={handleSubmit(handleDelete)}
+          >
+            Delete
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default Profile;

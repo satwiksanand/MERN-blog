@@ -111,7 +111,7 @@ function BlogEdit() {
               type="text"
               placeholder="What's your blog called?"
               id="title"
-              className="rounded-lg bg-[#757575] p-2 font-thin placeholder:font-thin placeholder:text-white focus:outline-none"
+              className="rounded-lg bg-[#262626] p-2 font-thin placeholder:font-thin placeholder:text-[#b3b3b3] focus:outline-none"
               {...register("title", { required: "Title is required" })}
             />
             {errors.title && (
@@ -128,7 +128,7 @@ function BlogEdit() {
               type="text"
               placeholder="highlights of your blog!"
               id="introduction"
-              className="rounded-lg bg-[#757575] p-2 font-thin placeholder:font-thin placeholder:text-white focus:outline-none"
+              className="rounded-lg bg-[#262626] p-2 font-thin placeholder:font-thin placeholder:text-[#b3b3b3] focus:outline-none"
               {...register("introduction")}
             />
           </div>
@@ -140,7 +140,7 @@ function BlogEdit() {
               name="content"
               id="content"
               placeholder="contents of your blog"
-              className="rounded-lg bg-[#757575] p-2 font-thin placeholder:font-thin placeholder:text-white focus:outline-none"
+              className="rounded-lg bg-[#262626] p-2 font-thin placeholder:font-thin placeholder:text-[#b3b3b3] focus:outline-none"
               rows={8}
               {...register("content", { required: "Content cannot be empty!" })}
             ></textarea>
@@ -157,7 +157,7 @@ function BlogEdit() {
             <select
               name="readingTime"
               id="readingTime"
-              className="rounded-lg bg-[#757575]"
+              className="rounded-lg bg-[#262626]"
               {...register("readingTime")}
             >
               <option value="5min+">5 minutes</option>
@@ -174,7 +174,7 @@ function BlogEdit() {
               type="text"
               name="bannerImage"
               id="bannerImage"
-              className="w-full rounded-lg bg-[#757575] font-thin"
+              className="w-full rounded-lg bg-[#262626] font-thin"
               {...register("bannerImage")}
               placeholder="Leave empty for default image"
             />
@@ -188,7 +188,7 @@ function BlogEdit() {
             <select
               name="category"
               id="category"
-              className="rounded-lg bg-[#757575]"
+              className="rounded-lg bg-[#262626]"
               {...register("category")}
             >
               <option value="ReactJS">ReactJS</option>
@@ -241,7 +241,7 @@ function BlogEdit() {
             </div>
           </div>
         </div>
-        <button className="col-start-1 rounded-lg bg-[#7e7e91] p-3 text-white md:col-span-3">
+        <button className="col-start-1 rounded-lg bg-[#262626] p-3 text-[#b3b3b3] md:col-span-3">
           {loading ? <Spinner /> : "Submit"}
         </button>
       </form>
