@@ -1,46 +1,23 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaEye } from "react-icons/fa";
 import { FaShare } from "react-icons/fa6";
+import { getPostById } from "../slice/postSlice";
 
 //make this responsive
 
 function BlogOpen() {
   const [blogData, setBlogData] = useState({});
   console.log("re-render");
-  const par = useParams().blogId;
+  const id = useParams().blogId;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const getPostById = useCallback(async () => {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/v1/posts/read/${par}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        },
-      );
-      const finalData = await res.json();
-      console.log(finalData);
-      if (res.ok) {
-        return finalData;
-      } else {
-        toast.error(finalData.message || "Error while fetching the data!");
-        navigate("/");
-      }
-    } catch (err) {
-      toast.error(err.message || "Error while fetching the data!");
-      navigate("/");
-    }
-  }, [navigate, par]);
 
   useEffect(() => {
-    getPostById().then((data) => {
-      if (data) setBlogData(data);
-    });
-  }, [getPostById, par]);
+    dispatch(getPostById({ id, navigate, setBlogData }));
+  }, [dispatch, id, navigate]);
 
   return (
     <div>

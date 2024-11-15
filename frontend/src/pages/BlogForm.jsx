@@ -1,11 +1,6 @@
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import {
-  getPostFailure,
-  getPostStart,
-  getPostSuccess,
-} from "../slice/postSlice";
+import { getByCategory } from "../slice/postSlice";
 import { useCallback, useEffect } from "react";
 
 function BlogForm() {
@@ -22,34 +17,7 @@ function BlogForm() {
 
   const onSubmit = useCallback(
     async (data) => {
-      dispatch(getPostStart());
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/v1/posts/get/${data["category"]}/${data["limit"]}`,
-          {
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            method: "GET",
-          },
-        );
-        const finalData = await res.json();
-        console.log(finalData);
-        if (res.ok) {
-          dispatch(getPostSuccess(finalData));
-        } else {
-          toast.error(finalData.message || "Something wrong with the server!");
-          dispatch(
-            getPostFailure(
-              finalData.message || "Something wrong with the server!",
-            ),
-          );
-        }
-      } catch (err) {
-        toast.error(err.message || "Something wrong with the server!");
-        dispatch(
-          getPostFailure(err.message || "Something wrong with the server!"),
-        );
-      }
+      dispatch(getByCategory({ data }));
     },
     [dispatch],
   );

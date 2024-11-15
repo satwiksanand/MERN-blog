@@ -1,100 +1,41 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { Spinner } from "flowbite-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  updatePostFailure,
-  updatePostStart,
-  updatePostSuccess,
-} from "../slice/postSlice";
+import { getPostById, updatePost } from "../slice/postSlice";
 
 function BlogEdit() {
-  const par = useParams().blogId;
+  const id = useParams().blogId;
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
+    setValue,
   } = useForm();
-  const [blogData, setBlogData] = useState();
+  const [blogData, setBlogData] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.post);
 
   //there should be a function that will fetch the data from the server for me whenever the page relaods or the par varibale changes
 
-  const getPostById = useCallback(async () => {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/v1/posts/read/${par}`,
-        {
-          headers: { "Content-Type": "application/json" },
-          method: "GET",
-          credentials: "include",
-        },
-      );
-      const finalData = await res.json();
-      if (res.ok) {
-        return finalData;
-      } else {
-        navigate("/blogs");
-        toast.error("Error while fetching data!");
-      }
-    } catch (err) {
-      navigate("/blogs");
-      toast.error(err.message || "Error while fetching data!");
-    }
-  }, [par, navigate]);
-
-  async function onSubmit(data) {
-    dispatch(updatePostStart());
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/v1/posts/update/${par}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(data),
-        },
-      );
-      const finalData = await res.json();
-      if (res.ok) {
-        toast.success("Post updated successfully!");
-        dispatch(updatePostSuccess());
-        navigate("/blogs");
-      } else {
-        toast.error(finalData.message || "Error while updating the post");
-        dispatch(
-          updatePostFailure(
-            finalData.message || "Error while updating the post",
-          ),
-        );
-      }
-    } catch (err) {
-      toast(err.message || "Something wrong with the server");
-      dispatch(
-        updatePostFailure(err.message || "Something wrong with the server"),
-      );
-    }
+  function onSubmit(data) {
+    dispatch(updatePost({ data, id, navigate }));
   }
 
   useEffect(() => {
-    getPostById().then((data) => {
-      if (data) {
-        setBlogData(data);
-        setValue("title", data.title);
-        setValue("introduction", data.introduction);
-        setValue("content", data.content);
-        setValue("readingTime", data.readingTime);
-        setValue("bannerImage", data.bannerImage);
-        setValue("category", data.category);
-      }
+    dispatch(getPostById({ id, navigate, setBlogData })).then((res) => {
+      console.log(res.payload);
+      setValue("title", res.payload.title);
+      setValue("introduction", res.payload.introduction);
+      setValue("content", res.payload.content);
+      setValue("readingTime", res.payload.readingTime);
+      setValue("bannerImage", res.payload.bannerImage);
+      setValue("category", res.payload.category);
     });
-  }, [getPostById, setValue]);
+  }, [dispatch, id, navigate, setValue]);
 
   return (
     <div className="flex items-center justify-center gap-3 p-12">

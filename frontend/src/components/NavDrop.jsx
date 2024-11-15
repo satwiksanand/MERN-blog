@@ -2,9 +2,10 @@ import { Dropdown } from "flowbite-react";
 import { FaUser } from "react-icons/fa";
 import { FaSignOutAlt } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { signOut } from "../slice/userSlice";
 
 User.propTypes = {
   handleSignOut: PropTypes.func,
@@ -12,8 +13,13 @@ User.propTypes = {
 
 //render the user info dynamically here
 
-function User({ handleSignOut }) {
+function User() {
   const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+
+  function handleSignOut() {
+    dispatch(signOut());
+  }
 
   return (
     <div className="invisible rounded-lg text-white md:visible">

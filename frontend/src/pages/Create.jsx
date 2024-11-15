@@ -1,13 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { Spinner } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import {
-  createPostFail,
-  createPostStart,
-  createPostSuccess,
-} from "../slice/postSlice";
+import { createPost } from "../slice/postSlice";
 
 function Create() {
   const {
@@ -20,36 +15,8 @@ function Create() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  async function onSubmit(data) {
-    dispatch(createPostStart());
-    try {
-      const res = await fetch("http://localhost:3000/api/v1/posts/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include",
-      });
-      const finalData = await res.json();
-      if (res.ok) {
-        toast.success("Blog created successfully");
-        dispatch(createPostSuccess());
-        navigate("/blogs");
-      } else {
-        toast.error(
-          finalData.message ||
-            "something wrong with the server try again later!",
-        );
-        dispatch(
-          createPostFail(
-            finalData.message ||
-              "something wrong with the server try again later!",
-          ),
-        );
-      }
-    } catch (err) {
-      toast.error(err.message || "Error while creating Blog!");
-      dispatch(createPostFail(err.message || "Erro while creating blog!"));
-    }
+  function onSubmit(data) {
+    dispatch(createPost({ data, navigate }));
   }
 
   return (

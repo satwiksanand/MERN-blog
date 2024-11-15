@@ -17,7 +17,6 @@ const postQuery = async (req, res, next) => {
       throw customError(411, result.error.errors[0].message);
     }
     const newQuery = req.body;
-    console.log(newQuery);
     newQuery.userId = req.user.id;
     await queries.create(newQuery);
     res.json({

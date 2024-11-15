@@ -13,39 +13,14 @@ import { IoMenu } from "react-icons/io5";
 import { IoCreate } from "react-icons/io5";
 import { MdSupportAgent } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import {
-  signoutFailure,
-  signoutStart,
-  signoutSuccess,
-} from "../slice/userSlice";
+import { signOut } from "../slice/userSlice";
 
 function Navbar() {
   const user = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
   async function handleSignOut() {
-    dispatch(signoutStart());
-    try {
-      const res = await fetch("http://localhost:3000/api/v1/user/signout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-      const finalData = await res.json();
-      if (res.ok) {
-        toast.success("Sign out Successfull!");
-        dispatch(signoutSuccess());
-      } else {
-        toast.error(
-          finalData.message || "Something up with the server! Try Again later",
-        );
-        dispatch(signoutFailure);
-      }
-    } catch (err) {
-      toast.error(err.message || "Can't sign out, try Again!");
-      dispatch(signoutFailure());
-    }
+    dispatch(signOut());
   }
 
   return (
@@ -60,7 +35,7 @@ function Navbar() {
             <NavLinks label="Create" path="/create" />
             <NavLinks label="Contact Us" path="/contact" />
           </div>
-          <NavDrop handleSignOut={handleSignOut} />
+          <NavDrop />
         </div>
       </nav>
       <nav className="block md:hidden">

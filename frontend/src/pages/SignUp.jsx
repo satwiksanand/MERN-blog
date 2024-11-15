@@ -2,8 +2,7 @@ import { Spinner } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { signUpFailure, signUpStart, signUpSuccess } from "../slice/userSlice";
-import { toast } from "react-toastify";
+import { signUp } from "../slice/userSlice";
 
 export default function SignUp() {
   const {
@@ -15,34 +14,9 @@ export default function SignUp() {
   const { loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    console.log(data);
-    //submit the form data and redirect to the login page if successfull!
-    try {
-      dispatch(signUpStart());
-      const response = await fetch("http://localhost:3000/api/v1/auth/signup", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
-      });
-      const finalResponse = await response.json();
-      if (response.ok) {
-        dispatch(signUpSuccess());
-        navigate("/signin");
-        toast.success(finalResponse.message || "User Created!");
-      } else {
-        dispatch(
-          signUpFailure(
-            finalResponse.message || "something up with the server",
-          ),
-        );
-        toast.error(finalResponse.message || "something up with the server");
-      }
-    } catch (err) {
-      dispatch(signUpFailure(err.message));
-      toast.error(err.message || "something up with the server!");
-    }
-  };
+  function onSubmit(data) {
+    dispatch(signUp({ data, navigate }));
+  }
 
   return (
     <div className="flex items-center justify-center p-4 sm:p-12">

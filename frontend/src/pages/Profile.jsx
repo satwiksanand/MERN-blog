@@ -4,15 +4,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { MdEditOff } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import {
-  updateFailure,
-  updateStart,
-  updateSuccess,
-  deleteUserFailure,
-  deleteUserStart,
-  deleteUserSuccess,
-} from "../slice/userSlice";
+import { deleteUser, updateUser } from "../slice/userSlice";
 
 function Profile() {
   const [editing, setEditing] = useState(false);
@@ -31,59 +23,12 @@ function Profile() {
     setEditing((editing) => !editing);
   }
 
-  async function handleDelete() {
-    dispatch(deleteUserStart());
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/v1/user/delete/${_id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        },
-      );
-      const finalData = await res.json();
-      if (res.ok) {
-        toast.success(finalData.message);
-        dispatch(deleteUserSuccess());
-      } else {
-        toast.error(finalData.message || "something wrong with the server");
-        dispatch(deleteUserFailure());
-      }
-    } catch (err) {
-      toast.error(err.message || "something wrong with the server!");
-      dispatch(deleteUserFailure());
-    }
+  function handleDelete() {
+    dispatch(deleteUser({ _id }));
   }
 
-  async function handleEdit(data) {
-    dispatch(updateStart());
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/v1/user/update/${_id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-          credentials: "include",
-        },
-      );
-      const finalData = await res.json();
-      if (res.ok) {
-        toast.success("user updated!");
-        dispatch(updateSuccess(finalData));
-      } else {
-        toast.error(finalData.message || "something wrong with the server!");
-        dispatch(
-          updateFailure(finalData.message || "something wrong with the server"),
-        );
-      }
-    } catch (err) {
-      toast.error(err.message || "something wrong with the server!");
-      dispatch(
-        updateFailure(err.message || "something wrong with the server!"),
-      );
-    }
+  function handleEdit(data) {
+    dispatch(updateUser({ data, _id }));
   }
 
   useEffect(() => {

@@ -1,8 +1,7 @@
 import { Spinner } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { signInFailure, signInStart, signInSuccess } from "../slice/userSlice";
-import { toast } from "react-toastify";
+import { signIn } from "../slice/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
@@ -17,37 +16,9 @@ export default function SignIn() {
   const { loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    //submit the form data and redirect to the login page if successfull!
-    try {
-      dispatch(signInStart());
-      const response = await fetch("http://localhost:3000/api/v1/auth/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include",
-      });
-      const finalResponse = await response.json();
-      console.log(finalResponse);
-      if (response.ok) {
-        dispatch(signInSuccess(finalResponse));
-        toast.success("login successfull");
-        navigate("/");
-      } else {
-        dispatch(
-          signInFailure(
-            finalResponse.message || "something wrong with the server!",
-          ),
-        );
-        toast.error("can't sign in");
-      }
-    } catch (err) {
-      dispatch(
-        signInFailure(err.message || "something wrong with the server!"),
-      );
-      toast.error("something up with the server!");
-    }
-  };
+  function onSubmit(data) {
+    dispatch(signIn({ data, navigate }));
+  }
 
   const handleAdminLogin = () => {
     setValue("useremail", "admin@gmail.com");
