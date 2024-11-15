@@ -1,6 +1,7 @@
 import { Dropdown } from "flowbite-react";
 import { FaUser } from "react-icons/fa";
 import { FaSignOutAlt } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -39,6 +40,12 @@ function User({ handleSignOut }) {
             </span>
           </Dropdown.Header>
         )}
+        {user?.isAdmin && (
+          <Link to={"/users"}>
+            <Dropdown.Item icon={FaUsers}>All Users</Dropdown.Item>
+          </Link>
+        )}
+        <Dropdown.Divider className="font-bold text-black" />
         <Link to={user ? "/profile" : "/signin"}>
           <Dropdown.Item icon={FaUser}>
             {user ? "My Profile" : "Sign In"}

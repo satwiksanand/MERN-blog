@@ -7,6 +7,7 @@ import { FaHome } from "react-icons/fa";
 import { FaNewspaper } from "react-icons/fa";
 import { FaBlog } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 import { FaSignOutAlt } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import { IoCreate } from "react-icons/io5";
@@ -95,9 +96,19 @@ function Navbar() {
                     Contact Us
                   </Dropdown.Item>
                 </Link>
+                <Dropdown.Divider />
+                {user?.isAdmin && (
+                  <>
+                    <Link to={"/users"}>
+                      <Dropdown.Item icon={FaUsers}>All Users</Dropdown.Item>
+                    </Link>
+                    <Dropdown.Divider />
+                  </>
+                )}
                 <Link to={"/profile"}>
                   <Dropdown.Item icon={FaUser}>My Profile</Dropdown.Item>
                 </Link>
+                <Dropdown.Divider />
                 <Dropdown.Divider />
                 <Dropdown.Item icon={FaSignOutAlt} onClick={handleSignOut}>
                   Sign out

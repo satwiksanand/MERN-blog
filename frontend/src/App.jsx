@@ -17,6 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Profile";
 import BlogOpen from "./pages/BlogOpen";
 import BlogEdit from "./pages/BlogEdit";
+import AdminPrivateRoute from "./components/AdminPrivateRoute";
+import Users from "./pages/Users";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +59,15 @@ const router = createBrowserRouter([
           {
             path: "/blogs/edit/:blogId",
             element: <BlogEdit />,
+          },
+        ],
+      },
+      {
+        element: <AdminPrivateRoute />,
+        children: [
+          {
+            path: "/users",
+            element: <Users />,
           },
         ],
       },
