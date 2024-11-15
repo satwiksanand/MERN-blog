@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
-import User from "./User";
+import NavDrop from "./NavDrop";
 import { Dropdown } from "flowbite-react";
 import { FaHome } from "react-icons/fa";
 import { FaNewspaper } from "react-icons/fa";
@@ -60,7 +60,7 @@ function Navbar() {
             <NavLinks label="Create" path="/create" />
             <NavLinks label="Contact Us" path="/contact" />
           </div>
-          <User handleSignOut={handleSignOut} />
+          <NavDrop handleSignOut={handleSignOut} />
         </div>
       </nav>
       <nav className="block md:hidden">

@@ -30,16 +30,23 @@ const getUserById = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
   //return all the users without the password.
+  const filter = req.query.filter || "";
   try {
     if (!req.user.isAdmin) {
       throw customError(413, "Unauthorized!");
     }
-    const allUsers = await user.find({});
+    const allUsers = await user.find({
+      username: {
+        $regex: filter,
+      },
+    });
     const allUsersWithoutPassword = allUsers.map((curr) => {
       const { password: pass, ...rest } = curr._doc;
       return rest;
     });
-    res.json({ data: allUsersWithoutPassword });
+    res.json({
+      result: allUsersWithoutPassword,
+    });
   } catch (err) {
     next(err);
   }
