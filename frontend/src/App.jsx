@@ -19,6 +19,7 @@ import BlogOpen from "./pages/BlogOpen";
 import BlogEdit from "./pages/BlogEdit";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
 import Users from "./pages/Users";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
           {
             path: "/users",
             element: <Users />,
+          },
+          {
+            path: "/users/user/:userId",
+            element: <UserProfile />,
           },
         ],
       },

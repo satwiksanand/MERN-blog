@@ -2,24 +2,78 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import User from "../components/User";
-import { useDispatch } from "react-redux";
-import { getUserByCategory } from "../slice/userSlice";
+import { toast } from "react-toastify";
+import { Spinner } from "flowbite-react";
 
 function Users() {
   const { register, handleSubmit } = useForm();
   const [users, setUsers] = useState([]);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = useCallback(
-    (data) => {
-      dispatch(getUserByCategory({ data, setUsers }));
-    },
-    [dispatch],
-  );
+  //function for deleting a user
+  async function deleteUserById(id) {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/v1/user/delete/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+      const finalData = await res.json();
+      if (!res.ok) {
+        toast.error(finalData.message || "something wrong with the server");
+        return;
+      }
+      toast.success(finalData.message);
+      //deleting the user locally instead of fetching it from the server.
+      setUsers((users) =>
+        users.filter((curr) => {
+          return curr._id != id;
+        }),
+      );
+    } catch (err) {
+      toast.error(err.message || "something wrong with the server!");
+    }
+  }
+
+  // the form data fetching functionality.
+  const onSubmit = useCallback(async (data) => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `http://localhost:3000/api/v1/user/getAllUsers?filter=${data?.["filter"] || ""}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        },
+      );
+      const finalData = await res.json();
+      if (!res.ok) {
+        toast.error(finalData.message || "something wrong with the server!");
+        return;
+      }
+      setUsers(finalData.result);
+    } catch (err) {
+      toast.error(err.message || "something wrong with the server!");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     handleSubmit(onSubmit)();
   }, [onSubmit, handleSubmit]);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner size="xl" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-full p-12">
@@ -51,7 +105,14 @@ function Users() {
       <div className="flex flex-col gap-3">
         {users &&
           users.map((user, ind) => {
-            return <User user={user} key={ind} index={ind + 1} />;
+            return (
+              <User
+                user={user}
+                key={ind}
+                index={ind + 1}
+                handleDelete={deleteUserById}
+              />
+            );
           })}
       </div>
     </div>

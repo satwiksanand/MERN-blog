@@ -121,29 +121,6 @@ export const signOut = createAsyncThunk("user/signout", async () => {
   }
 });
 
-export const getUserByCategory = createAsyncThunk(
-  "user/category",
-  async ({ data, setUsers }) => {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/v1/user/getAllUsers?filter=${data?.["filter"] || ""}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        },
-      );
-      const finalData = await res.json();
-      if (!res.ok) {
-        toast.error(finalData.message || "something wrong with the server!");
-      }
-      setUsers(finalData.result);
-    } catch (err) {
-      toast.error(err.message || "something wrong with the server!");
-    }
-  },
-);
-
 const userSlice = createSlice({
   name: "user",
   initialState: {
