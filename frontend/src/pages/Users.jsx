@@ -1,34 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
-import { toast } from "react-toastify";
 import User from "../components/User";
+import { useDispatch } from "react-redux";
+import { getUserByCategory } from "../slice/userSlice";
 
 function Users() {
   const { register, handleSubmit } = useForm();
   const [users, setUsers] = useState([]);
+  const dispatch = useDispatch();
 
-  const onSubmit = useCallback(async (data) => {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/v1/user/getAllUsers?filter=${data?.["filter"] || ""}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        },
-      );
-      const finalData = await res.json();
-      console.log(finalData);
-      if (res.ok) {
-        setUsers(finalData.result);
-      } else {
-        toast.error(finalData.message || "something wrong with the server!");
-      }
-    } catch (err) {
-      toast.error(err.message || "something wrong with the server!");
-    }
-  }, []);
+  const onSubmit = useCallback(
+    (data) => {
+      dispatch(getUserByCategory({ data, setUsers }));
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     handleSubmit(onSubmit)();
