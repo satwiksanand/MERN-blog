@@ -97,7 +97,7 @@ const updateUser = async (req, res, next) => {
         throw customError(400, "Username can only contain letters and numbers");
       }
       const existingUser = await user.findOne({ username: req.body.username });
-      if (existingUser && existingUser._id != req.user.id) {
+      if (existingUser && existingUser._id != userId && !req.user.isAdmin) {
         throw customError(411, "Username already in use");
       }
     } else {
@@ -105,7 +105,7 @@ const updateUser = async (req, res, next) => {
       req.body = rest;
     }
     const updatedUser = await user.findByIdAndUpdate(
-      req.user.id,
+      userId,
       {
         $set: req.body,
       },
