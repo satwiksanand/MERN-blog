@@ -165,7 +165,7 @@ const testimonials = [
     name: "Diego Lopez",
     address: "Barcelona, Spain",
     feedback:
-      "The ebooks on renewable energy strategies have given me the insights I needed to pivot our startup toward sustainability,",
+      "The ebooks on renewable energy strategies have given me the insights I needed to pivot our startup toward sustainability, improvement and readiness!",
   },
 ];
 

@@ -10,7 +10,7 @@ User.propTypes = {
 };
 
 function User({ user, index, handleDelete }) {
-  const { profilePicture, username, useremail, _id } = user;
+  const { profilePicture, username, useremail, _id, isAdmin } = user;
 
   return (
     <div className="grid grid-cols-2 gap-2 rounded-lg bg-[#262626] p-8 sm:grid-cols-5 sm:p-4">
@@ -26,19 +26,27 @@ function User({ user, index, handleDelete }) {
         {username}
       </p>
       <p className="truncate text-lg font-thin">{useremail}</p>
-      <div className="flex items-center justify-end gap-4">
-        <Link to={`/users/user/${_id}`}>
-          <MdEdit fill="blue" size={24} cursor={"pointer"} />
-        </Link>
-        <MdDelete
-          fill="red"
-          size={24}
-          cursor={"pointer"}
-          onClick={() => {
-            handleDelete(_id);
-          }}
-        />
-      </div>
+      {isAdmin ? (
+        <div className="flex items-center justify-end">
+          <p className="rounded-lg bg-[#1a1a1a] px-3 py-1 text-lg font-semibold text-[#a3a3a7]">
+            Admin
+          </p>
+        </div>
+      ) : (
+        <div className="flex items-center justify-end gap-4">
+          <Link to={`/users/user/${_id}`}>
+            <MdEdit fill="blue" size={24} cursor={"pointer"} />
+          </Link>
+          <MdDelete
+            fill="red"
+            size={24}
+            cursor={"pointer"}
+            onClick={() => {
+              handleDelete(_id);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
