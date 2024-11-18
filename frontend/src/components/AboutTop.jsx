@@ -22,7 +22,7 @@ const aboutTopContent = [
 function FooterTop() {
   return (
     <div className="bg-[#262626] p-4 sm:p-12">
-      <div className="mb-3 grid grid-cols-5 grid-rows-3 sm:grid-rows-3">
+      <div className="mb-3 grid grid-cols-5 grid-rows-3 p-2 sm:grid-rows-3">
         <div className="row-span-1 flex items-center justify-start p-2 sm:row-span-3 sm:justify-center sm:p-8">
           <GiVineFlower fill="yellow" className="size-14 sm:size-24" />
         </div>
