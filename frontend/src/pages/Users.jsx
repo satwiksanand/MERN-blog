@@ -14,7 +14,7 @@ function Users() {
   async function deleteUserById(id) {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/user/delete/${id}`,
+        `https://blogzy-4hxg.onrender.com/api/v1/user/delete/${id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -43,7 +43,7 @@ function Users() {
     try {
       setLoading(true);
       const res = await fetch(
-        `http://localhost:3000/api/v1/user/getAllUsers?filter=${data?.["filter"] || ""}`,
+        `https://blogzy-4hxg.onrender.com/api/v1/user/getAllUsers?filter=${data?.["filter"] || ""}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
