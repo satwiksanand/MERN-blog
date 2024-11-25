@@ -29,7 +29,7 @@ function UserProfile() {
       setLoading(true);
 
       const res = await fetch(
-        `http://localhost:3000/api/v1/user/getUserById/${userId}`,
+        `https://blogzy-4hxg.onrender.com/api/v1/user/getUserById/${userId}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -60,7 +60,7 @@ function UserProfile() {
     try {
       setLoading(true);
       const res = await fetch(
-        `http://localhost:3000/api/v1/user/update/${userId}`,
+        `https://blogzy-4hxg.onrender.com/api/v1/user/update/${userId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

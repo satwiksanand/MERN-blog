@@ -5,12 +5,15 @@ export const signIn = createAsyncThunk(
   "auth/signin",
   async ({ data, navigate }, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://blogzy-4hxg.onrender.com/api/v1/auth/signin",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+          credentials: "include",
+        },
+      );
       const finalResponse = await response.json();
       console.log(finalResponse);
       if (!response.ok) {
@@ -33,11 +36,14 @@ export const signUp = createAsyncThunk(
   "auth/signup",
   async ({ data, navigate }, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/signup", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        "https://blogzy-4hxg.onrender.com/api/v1/auth/signup",
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" },
+        },
+      );
       const finalResponse = await response.json();
       if (!response.ok) {
         toast.error(finalResponse.message || "something up with the server");
@@ -59,7 +65,7 @@ export const updateUser = createAsyncThunk(
   async ({ data, _id }, { fulfillWithValue, rejectWithValue }) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/user/update/${_id}`,
+        `https://blogzy-4hxg.onrender.com/api/v1/user/update/${_id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -85,11 +91,14 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk("user/delete", async ({ _id }) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/v1/user/delete/${_id}`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    });
+    const res = await fetch(
+      `https://blogzy-4hxg.onrender.com/api/v1/user/delete/${_id}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      },
+    );
     const finalData = await res.json();
     if (res.ok) {
       toast.success(finalData.message);
@@ -103,11 +112,14 @@ export const deleteUser = createAsyncThunk("user/delete", async ({ _id }) => {
 
 export const signOut = createAsyncThunk("user/signout", async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/v1/user/signout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    const res = await fetch(
+      "https://blogzy-4hxg.onrender.com/api/v1/user/signout",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+    );
     const finalData = await res.json();
     if (res.ok) {
       toast.success("Sign out Successfull!");

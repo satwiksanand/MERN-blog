@@ -34,12 +34,15 @@ function Contact() {
     try {
       const { check, ...rest } = data;
       console.log(rest);
-      const res = await fetch("http://localhost:3000/api/v1/query/new", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(rest),
-      });
+      const res = await fetch(
+        "https://blogzy-4hxg.onrender.com/api/v1/query/new",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(rest),
+        },
+      );
       const finalData = await res.json();
       if (res.ok) {
         toast.success("Query submitted successfully");

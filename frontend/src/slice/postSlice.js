@@ -5,12 +5,15 @@ export const createPost = createAsyncThunk(
   "post/createPost",
   async ({ data, navigate }, { rejectWithValue }) => {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/posts/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include",
-      });
+      const res = await fetch(
+        "https://blogzy-4hxg.onrender.com/api/v1/posts/create",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+          credentials: "include",
+        },
+      );
       const finalData = await res.json();
 
       if (!res.ok) {
@@ -38,7 +41,7 @@ export const deletePost = createAsyncThunk(
   async ({ id }, { fulfillWithValue }) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/posts/delete/${id}`,
+        `https://blogzy-4hxg.onrender.com/api/v1/posts/delete/${id}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -63,11 +66,14 @@ export const getPostById = createAsyncThunk(
   "post/getById",
   async ({ id, navigate, setBlogData }, { rejectWithValue }) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/posts/read/${id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
+      const res = await fetch(
+        `https://blogzy-4hxg.onrender.com/api/v1/posts/read/${id}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        },
+      );
 
       const finalData = await res.json();
 
@@ -94,7 +100,7 @@ export const getByCategory = createAsyncThunk(
   async ({ data }, { rejectWithValue, fulfillWithValue }) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/posts/get/${data["category"]}/${data["limit"]}`,
+        `https://blogzy-4hxg.onrender.com/api/v1/posts/get/${data["category"]}/${data["limit"]}`,
         {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -122,7 +128,7 @@ export const updatePost = createAsyncThunk(
   async ({ data, id, navigate }, { rejectWithValue }) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/posts/update/${id}`,
+        `https://blogzy-4hxg.onrender.com/api/v1/posts/update/${id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
