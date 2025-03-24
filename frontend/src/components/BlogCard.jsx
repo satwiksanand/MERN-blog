@@ -1,4 +1,4 @@
-import { Card, Dropdown } from "flowbite-react";
+import { Dropdown } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -19,9 +19,9 @@ export default function BlogCard({ blog, deletePost }) {
   const navigate = useNavigate();
 
   return (
-    <Card className="flex flex-col gap-3 bg-[#1e1e1e] p-2 hover:scale-x-[1.02] hover:scale-y-[1.02] hover:cursor-pointer">
+    <div className="relative flex flex-col gap-2 rounded-lg bg-[#1e1e1e]">
       {isAdmin && (
-        <div className="flex justify-end text-end">
+        <div className="absolute right-2 top-2 flex justify-end text-end">
           <Dropdown className="rounded-lg" inline label="">
             <Link to={`/blogs/edit/${_id}`}>
               <Dropdown.Item className="font-thin" icon={FaEdit}>
@@ -46,8 +46,8 @@ export default function BlogCard({ blog, deletePost }) {
         alt="bannerImage"
         className="h-40 w-full flex-grow rounded-lg"
       />
-      <p className="h-10 w-full truncate text-lg font-semibold">{title}</p>
-      <div className="flex items-center justify-between gap-2">
+      <p className="h-10 w-full truncate px-4 text-lg font-semibold">{title}</p>
+      <div className="mb-6 flex items-center justify-between gap-2 px-4">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center justify-center gap-1 rounded-md bg-[#424243] p-1 px-2">
             <FaRegHeart /> <p>{likes}</p>
@@ -57,7 +57,7 @@ export default function BlogCard({ blog, deletePost }) {
           </div>
         </div>
         <div
-          className="flex items-center justify-center gap-2 rounded-2xl border-[1px] p-2 outline-gray-500/50"
+          className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl p-2"
           onClick={() => {
             navigate(`/blogs/blog/${_id}`);
           }}
@@ -66,6 +66,6 @@ export default function BlogCard({ blog, deletePost }) {
           <IoNavigate size={24} fill="yellow" />
         </div>
       </div>
-    </Card>
+    </div>
   );
 }

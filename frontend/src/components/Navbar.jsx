@@ -24,7 +24,7 @@ function Navbar() {
   }
 
   return (
-    <>
+    <div className="sticky top-0 z-10">
       <nav className="hidden md:block">
         <div className="flex justify-around gap-1 bg-[#333333] p-3">
           <Logo />
@@ -97,7 +97,7 @@ function Navbar() {
           </Dropdown>
         </div>
       </nav>
-    </>
+    </div>
   );
 }
 
