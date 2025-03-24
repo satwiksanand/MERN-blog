@@ -44,7 +44,7 @@ export default function BlogCard({ blog, deletePost }) {
       <img
         src={bannerImage}
         alt="bannerImage"
-        className="h-40 w-full flex-grow rounded-lg"
+        className="h-40 w-full flex-grow overflow-hidden rounded-t-lg object-cover"
       />
       <p className="h-10 w-full truncate px-4 text-lg font-semibold">{title}</p>
       <div className="mb-6 flex items-center justify-between gap-2 px-4">

@@ -17,7 +17,7 @@ const homeCards = [
 
 function LeftIntro() {
   return (
-    <div className="mt-12 box-border max-w-[548px] p-6">
+    <div className="mt-12 box-border max-w-[548px] py-8">
       <div>
         <p className="text-lg font-bold capitalize text-[#7e7e81]">
           Your Journey to tomorrow begins here!
